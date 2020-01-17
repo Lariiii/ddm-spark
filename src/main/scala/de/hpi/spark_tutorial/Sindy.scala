@@ -6,16 +6,16 @@ object Sindy {
 
   def discoverINDs(inputs: List[String], spark: SparkSession): Unit = {
 
-    // TODO
-    println(inputs.head)
+    val tables = inputs.map { source =>
+      spark
+        .read
+        .option("inferSchema", "true")
+        .option("header", "true")
+        .option("delimiter", ";")
+        .csv(source)
+    }
+    tables.foreach(_.printSchema())
+    tables.foreach(_.show())
 
-    val region = spark
-      .read
-      .option("inferSchema", "true")
-      .option("header", "true")
-      .csv(inputs.head)
-
-    region.printSchema()
-    region.show()
   }
 }

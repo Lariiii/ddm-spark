@@ -9,14 +9,6 @@ import org.apache.spark.ml.feature.{IndexToString, StringIndexer, VectorIndexer}
 import org.apache.log4j.Logger
 import org.apache.log4j.Level
 
-// A Scala case class; works out of the box as Dataset type using Spark's implicit encoders
-case class Person(name:String, surname:String, age:Int)
-
-// A non-case class; requires an encoder to work as Dataset type
-class Pet(var name:String, var age:Int) {
-  override def toString = s"Pet(name=$name, age=$age)"
-}
-
 object SimpleSpark extends App {
 
   override def main(args: Array[String]): Unit = {
@@ -29,11 +21,13 @@ object SimpleSpark extends App {
     // Setting up a Spark Session
     //------------------------------------------------------------------------------------------------------------------
 
+    val cores = 4;
+
     // Create a SparkSession to work with Spark
     val sparkBuilder = SparkSession
       .builder()
       .appName("InclusionDependencyDiscovery")
-      .master("local[4]") // local, with 4 worker cores
+      .master(s"local[$cores]") // local, with 4 worker cores
     val spark = sparkBuilder.getOrCreate()
 
     // Set the default number of shuffle partitions (default is 200, which is too high for local deployment)
