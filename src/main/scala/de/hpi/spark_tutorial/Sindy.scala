@@ -56,16 +56,7 @@ object Sindy {
     val indList = inclusionList.reduceByKey(_ intersect _).filter(x => x._2.nonEmpty).sortByKey()
     //indList.foreach(i => println(i))
 
-    // list of output strings
-    //val output = List[String]()
-    /*var output = new ListBuffer[String]()
-    indList.foreach(element => element._2.foreach(i =>
-      output += element._1.toString + " < " + i.toString
-    ))
-
-    output.foreach(i => println(i))*/
-
-    //indList.foreach(i => println(i._1 + " < " + i._2))
-
+    // output resulting strings
+    indList.foreach(i => println(i._1 + " < " + i._2.mkString(", ")))
   }
 }

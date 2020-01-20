@@ -21,7 +21,18 @@ object SimpleSpark extends App {
     // Setting up a Spark Session
     //------------------------------------------------------------------------------------------------------------------
 
-    val cores = 4;
+    var cores = 4
+    var path = "data/TPCH"
+
+    val parser = args.iterator
+    while (parser.hasNext) {
+      parser.next match {
+        case "--path" => path = parser.next
+        case "--cores" => cores = parser.next.toInt
+        case default => println("Usage: java -jar <application>.jar [--path PATH=./TPCH] [--cores CORES=4]")
+          System.exit(1)
+      }
+    }
 
     // Create a SparkSession to work with Spark
     val sparkBuilder = SparkSession
@@ -51,8 +62,8 @@ object SimpleSpark extends App {
     //------------------------------------------------------------------------------------------------------------------
 
     // "region", "nation", "supplier", "customer", "part", "lineitem", "orders"
-    val inputs = List("region", "nation")
-      .map(name => s"data/TPCH/tpch_$name.csv")
+    val inputs = List("region", "nation", "supplier", "customer", "part", "lineitem", "orders")
+      .map(name => s"$path/tpch_$name.csv")
 
     time {Sindy.discoverINDs(inputs, spark)}
   }
