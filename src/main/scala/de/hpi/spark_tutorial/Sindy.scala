@@ -2,6 +2,7 @@ package de.hpi.spark_tutorial
 
 import org.apache.spark.rdd.RDD
 import org.apache.spark.sql.{DataFrame, Dataset, Row, SparkSession}
+import org.apache.spark.SparkContext
 
 import scala.collection.mutable.ListBuffer
 
@@ -45,6 +46,26 @@ object Sindy {
 
     // get the attribute sets just containing the column name
     val attributesColumnNames = attributes.values.distinct()
-    //attributesColumnNames.foreach(b => println(b)
+    //attributesColumnNames.foreach(b => println(b))
+
+    // create inclusions lists
+    val inclusionList = attributesColumnNames.flatMap(attributes => attributes.map(a => (a, attributes - a)))
+    //inclusionList.foreach(i => println(i))
+
+    // groupby inclusion lists by key and intersect their attribute sets + filter out empty sets as values + sort lexicographically
+    val indList = inclusionList.reduceByKey(_ intersect _).filter(x => x._2.nonEmpty).sortByKey()
+    //indList.foreach(i => println(i))
+
+    // list of output strings
+    //val output = List[String]()
+    /*var output = new ListBuffer[String]()
+    indList.foreach(element => element._2.foreach(i =>
+      output += element._1.toString + " < " + i.toString
+    ))
+
+    output.foreach(i => println(i))*/
+
+    //indList.foreach(i => println(i._1 + " < " + i._2))
+
   }
 }

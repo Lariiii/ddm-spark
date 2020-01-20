@@ -51,7 +51,7 @@ object SimpleSpark extends App {
     //------------------------------------------------------------------------------------------------------------------
 
     // "region", "nation", "supplier", "customer", "part", "lineitem", "orders"
-    val inputs = List("region", "nation", "supplier", "customer", "part", "lineitem", "orders")
+    val inputs = List("region", "nation")
       .map(name => s"data/TPCH/tpch_$name.csv")
 
     time {Sindy.discoverINDs(inputs, spark)}
