@@ -57,6 +57,7 @@ object Sindy {
     //indList.foreach(i => println(i))
 
     // output resulting strings
-    indList.foreach(i => println(i._1 + " < " + i._2.mkString(", ")))
+    val output = indList.collect()
+    output.foreach(i => println(i._1 + " < " + i._2.mkString(", ")))
   }
 }
